@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+    class Program
+{
+    static void Main(string[] args)
+    {
+        List<Orders> orders = new List<Orders>();
+
+        while (true)
+        {
+            string input = Console.ReadLine();
+            if (input == "Buy")
+            { break; }
+            string[] tokens = input.Split();
+            string product = tokens[0];
+            decimal price = decimal.Parse(tokens[1]);
+            int quantity = int.Parse(tokens[2]);
+            Orders order =orders.Find(a=>a.Name==product);
+            if (order == null)
+            {
+                order = new Orders(product, price, quantity);
+                orders.Add(order);
+            }
+            else
+            { order.Price = price;
+                order.Quantity += quantity;
+
+            }
+        }
+
+        Console.WriteLine(String.Join(Environment.NewLine, orders));
+    }
+}
+
+class Orders
+{
+    public Orders(string name, decimal price, int quantity)
+    {
+        Name = name;
+        Price = price;
+        Quantity = quantity;
+
+    }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
+
+    public override string ToString()
+    {
+        decimal finalPrice = Price * Quantity;
+        return $"{Name} -> {finalPrice}";
+    }
+}
