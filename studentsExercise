@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace StudentsExersise
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int countOfStudents = int.Parse(Console.ReadLine());
+            List <Students> allStudents = new List<Students>();
+            for (int i = 0; i < countOfStudents; i++)
+            { string[] input = Console.ReadLine()
+                     .Split();
+                string firstName = input[0];
+                string lastName = input[1];
+                double grade = double.Parse(input[2]);
+
+                Students students = new Students(firstName, lastName, grade);
+                allStudents.Add(students);
+
+               
+            }
+
+            List<Students> orderedListOfStudents = allStudents.OrderByDescending(x=> x.
+            Grade)
+                .ToList();
+
+            foreach (var students in orderedListOfStudents)
+            {
+                Console.WriteLine(students);
+            }
+        }
+    }
+    class Students
+    {
+        public Students(string firstName, string lastName, double grade)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Grade = grade;
+
+        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public double Grade { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}: {Grade:f2}";
+
+        }
+    }
+}
