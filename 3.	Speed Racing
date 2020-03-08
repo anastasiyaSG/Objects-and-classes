@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<Cars> carsList = new List<Cars>();
+
+        int n = int.Parse(Console.ReadLine());
+        for (int i = 0; i < n; i++)
+        {
+            string[] input = Console.ReadLine().Split();
+            string type = input[0];
+            double fuelAmountStart = double.Parse(input[1]);
+            double amountperkm = double.Parse(input[2]);
+            double currentKm = 0;
+            Cars cars = new Cars(type, fuelAmountStart, amountperkm, currentKm);
+            carsList.Add(cars);
+
+
+        }
+        while (true)
+        {
+            string[] input = Console.ReadLine().Split();
+            if (input[0] == "End")
+            { break; }
+            string currentCar = input[1];
+            double km = double.Parse(input[2]);
+
+
+            foreach (var item in carsList)
+            {
+                if (item.Name == currentCar)
+                {
+                    double need = km * item.AmountPerKm;
+                    if (item.FuelAmount - need >= 0)
+                    {
+                        item.FuelAmount -= need;
+                        item.Distance += km;
+
+                    }
+                }
+            }
+
+        }
+        foreach (var item in carsList)
+        {
+            Console.WriteLine($"{item.Name} {item.FuelAmount:f2} {item.Distance}");
+        }
+    }
+
+
+    class Cars
+    {
+        public Cars(string name, double fuelAmount, double amountPerKm, double distance)
+        {
+            Name = name;
+            FuelAmount = fuelAmount;
+            AmountPerKm = amountPerKm;
+            Distance = distance;
+
+        }
+        public string Name { get; set; }
+        public double FuelAmount { get; set; }
+        public double AmountPerKm { get; set; }
+        public double Distance { get; set; }
+
+        public override string ToString()
+        {
+
+            return $"{Name} {FuelAmount} {Distance}";
+        }
+    }
+}
