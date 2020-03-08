@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+namespace Students
+{
+public class StudentsClass
+{
+   
+ 
+    public string Name { get; set; }
+    public string LastName { get; set; }
+    public string Age { get; set; }
+    public string Home { get; set; }
+}
+
+
+    class Program
+    {
+        
+
+        static void Main(string[] args)
+        {
+            string[] data = Console.ReadLine().Split();
+            List<StudentsClass> students = new List<StudentsClass>();
+            while (true)
+            {
+                if (data[0] == "end")
+                { break; }
+                else
+                {
+
+                    string name = data[0];
+                    string lastName = data[1];
+                    string age = data[2];
+                    string HomeTown = data[3];
+                  
+                    if (IsExistringStuden(students, name, lastName))
+                    {
+                        StudentsClass student = GetStudent(students, name, lastName);
+                    student.Name = name;
+                        student.LastName = lastName;
+                        student.Age = age;
+                        student.Home = HomeTown;
+
+                            }
+                    else
+                    {
+                        StudentsClass student = new StudentsClass()
+                        {
+                            Name = name,
+                            LastName = lastName,
+                            Age = age,
+                            Home = HomeTown
+
+                        };
+                        students.Add(student);
+                    }
+                        
+
+                }
+                data = Console.ReadLine().Split();
+            }
+            
+
+
+            string filterCity = Console.ReadLine();
+
+
+            List<StudentsClass> filtered = students.Where(s => s.Home == $"{filterCity}").ToList();
+
+            foreach (StudentsClass studentsClass in filtered)
+            {
+                Console.WriteLine( $"{studentsClass.Name} {studentsClass.LastName} is {studentsClass.Age} years old.");
+
+            }
+        
+
+        }
+
+         static StudentsClass GetStudent(List<StudentsClass> students, string name, string lastName)
+        {
+            StudentsClass existingstudents = null;
+            foreach (StudentsClass student in students)
+            { if (student.Name == name && student.LastName == lastName)
+                { existingstudents = student; } }
+            return existingstudents;
+        }
+
+
+        static bool IsExistringStuden(List<StudentsClass> tezi, string name, string lastName)
+        {
+            foreach (StudentsClass student in tezi)
+            {if (student.Name == name && student.LastName == lastName)
+                { return true; }
+
+            }
+            return false;
+        }
+
+       
+    }
+}
+
+    
+ 
+
+
