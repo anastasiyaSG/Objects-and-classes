@@ -42,6 +42,7 @@ class Program
                         item.Distance += km;
 
                     }
+                    else { Console.WriteLine("Insufficient fuel for the drive"); }
                 }
             }
 
