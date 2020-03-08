@@ -1,54 +1,68 @@
-namespace _02._Oldest_Family_Member
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace _2._Oldest_Family_Member
+{
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            Family family = new Family();
+            //Dictionary<string, int> family = new Dictionary<string, int>();
+            //int count = int.Parse(Console.ReadLine());
+            //for (int i = 0; i < count; i++)
+            //{
+            //    string[] nameandage = Console.ReadLine().Split().ToArray();
+            //    string name = nameandage[0];
+            //    int age = int.Parse(nameandage[1]);
+            //    family[name] = age;
 
-            int numberOfMembers = int.Parse(Console.ReadLine());
 
-            for (int i = 0; i < numberOfMembers; i++)
+            //}
+            //int maxAge = family.Max(x => x.Value);
+
+            //foreach (var item in family)
+            //{if (item.Value == maxAge)
+            //    { Console.WriteLine($"{item.Key} {item.Value}"); }
+            //             }
+
+
+            List<People> peoples = new List<People>();
+            int count = int.Parse(Console.ReadLine());
+            for (int i = 0; i < count; i++)
             {
-                family.AddMember(Console.ReadLine().Split());
+                string[] nameandage = Console.ReadLine().Split().ToArray();
+                string name = nameandage[0];
+                int age = int.Parse(nameandage[1]);
+                People current = new People(name, age);
+                peoples.Add(current);
+
             }
+           
 
-            Person oldest = family.GetOledestMember();
+            foreach (var item in peoples.OrderByDescending(x=>x.Age).Take(1))
+            {
+                Console.WriteLine(item.Name+" "+item.Age);
 
-            Console.WriteLine($"{oldest.Name} {oldest.Age}");
+            } 
+
         }
     }
-
-    class Family
+    class People
     {
-        public List<Person> FamilyMembers { get; set; } = new List<Person>();
-
-        public void AddMember(string[] memberInfo)
+        public People(string name, int age)
         {
-            Person newMember = new Person(memberInfo[0], int.Parse(memberInfo[1]));
+            Name = name;
+            Age = age;
 
-            this.FamilyMembers.Add(newMember);
         }
-
-        public Person GetOledestMember()
-        {
-            return FamilyMembers.OrderByDescending(m => m.Age).First();
-        }
-    }
-
-    class Person
-    {
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public Person(string name, int age)
+        public override string ToString()
         {
-            this.Name = name;
-            this.Age = age;
+            return $"{Name} {Age}";
+
         }
     }
 }
