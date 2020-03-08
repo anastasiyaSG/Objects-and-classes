@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace TeamProject
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           int teamCount =int.Parse(Console.ReadLine());
+            List<Team> teams = new List<Team>();
+            for (int i = 0; i < teamCount; i++)
+            {
+                string[] splitedInput = Console.ReadLine()
+                       .Split('-');
+                string creatorName = splitedInput[0];
+                string teamName = splitedInput[1];
+
+                bool isTeamNameExist = teams.Select(x => x.Name).Contains(teamName);
+                bool isCreatorNameExist = teams.Any(x => x.CreatorName == creatorName);
+
+                if (isTeamNameExist == false && isCreatorNameExist == false)
+                {
+                    Team team = new Team(teamName, creatorName);
+                    teams.Add(team);
+                    Console.WriteLine(team);
+
+                }
+                else if (isTeamNameExist)
+                { Console.WriteLine($"Team { teamName} was already created!");
+                    continue;
+                }
+                else if (isCreatorNameExist)
+                { Console.WriteLine($"{creatorName} cannot create another team!");
+                    continue;
+                }
+
+
+            }
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input== "end of assignment")
+                {
+                    break;
+                }
+                string[] splitedInput = input.Split("->");
+                string user = splitedInput[0];
+                string teamName = splitedInput[1];
+                bool isTeamExist = teams.Any(x => x.Name ==teamName);
+                bool isAlreadyMember = teams.Any(x => x.Members.Contains(user)||x.CreatorName==user);
+                if (isTeamExist == false)
+                { Console.WriteLine( $"Team {teamName} does not exist!");
+                    continue;
+                }
+                if (isAlreadyMember)
+                { Console.WriteLine($"Member {user} cannot join team {teamName}!");
+                    continue;
+                }
+                if (isTeamExist && isAlreadyMember == false)
+                {
+                    int indexOfTeam = teams.FindIndex(x => x.Name == teamName);
+                    teams[indexOfTeam].Members.Add(user);
+                }
+            }
+          
+            List<Team> teamWithMembers = teams.Where(x => x.Members.Count > 0)
+                .OrderByDescending(x=>x.Members.Count)
+                .ThenBy(x=>x.Name)
+                .ToList();
+            List<Team> teamWhitoutMembers = teams.Where(x => x.Members.Count== 0)
+                
+                .OrderBy(x => x.Name)
+                .ToList();
+            foreach (var team in teamWithMembers)
+            {
+                Console.WriteLine(team.Name);
+                Console.WriteLine("- "+team.CreatorName);
+                Console.WriteLine(string.Join(Environment.NewLine, team.Members.Select(x=>$"-- {x}")));
+
+            }
+            Console.WriteLine("Teams to disband:");
+            foreach (var team in teamWhitoutMembers)
+            {
+                Console.WriteLine(team.Name);
+
+            }
+        }
+    }
+    class Team
+    {//konstructur -vtora stupka
+        public Team(string name,string creatorName)
+        {
+            Name = name;
+            CreatorName = creatorName;
+            Members = new List<string>();
+        }
+        //suzdavane na klass - purva stupka
+        public string Name { get; set; }
+        public string CreatorName { get; set; }
+        public List<string> Members { get; set; }
+
+        public override string ToString()
+        {
+            return $"Team {Name} has been created by {CreatorName}!";
+
+        }
+
+
+
+	}
+
+
+}
+
