@@ -1,0 +1,67 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace _4._Raw_Data
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            List<Car> cars = new List<Car>();
+
+            for (int i = 0; i < n; i++)
+            {
+                string[] input = Console.ReadLine().Split();
+                string model = input[0];
+                int enspeed = int.Parse(input[1]);
+                int enpower = int.Parse(input[2]);
+                int weight = int.Parse(input[3]);
+                string type = input[4];
+
+                Car car = new Car(model, enspeed, enpower, weight, type);
+                cars.Add(car);
+
+            }
+            string input2 = Console.ReadLine().ToLower();
+            if (input2 == "fragile")
+            {
+                foreach (var item in cars.Where(x => x.CargoType == input2).Where(x => x.CargoWeight < 1000))
+                {
+                    Console.WriteLine(item.Model);
+                }
+            }
+            else
+            {
+                foreach (var item in cars.Where(x => x.CargoType == input2).Where(x => x.EnginePower>250))
+                {
+                    Console.WriteLine(item.Model);
+                }
+            }
+        }
+    }
+    class Car
+    {
+        public Car(string model, int engineSpeed,int enginePower, int cargoWeight, string type)
+        {
+            Model = model;
+            EngineSpeed = enginePower;
+            EnginePower = enginePower;
+            CargoWeight = cargoWeight;
+            CargoType = type;
+
+        }
+        public string Model { get; set; }
+        public int EngineSpeed { get; set; }
+        public int EnginePower { get; set; }
+        public int CargoWeight { get; set; }
+        public string CargoType { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"{Model}";
+        }
+    }
+}
