@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _4._Snowwhite
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Dwarfs> allCollection = new List<Dwarfs>();
+            List<HatCount> allCount = new List<HatCount>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Once upon a time")
+                { break; }
+                string[] tokens = input.Split(" <:> ");
+                string nameOne = tokens[0];
+                string colorOne = tokens[1];
+                int power = int.Parse(tokens[2]);
+
+                Dwarfs dwarf = new Dwarfs(nameOne, colorOne, power);
+                allCollection.Add(dwarf);
+                                          }
+            for (int i = 0; i < allCollection.Count; i++)
+            {
+              
+                for (int j = 0; j < allCollection.Count; j++)
+                {
+                    if (allCollection[i].Name == allCollection[j].Name && allCollection[i].HatColor == allCollection[j].HatColor)
+                    { if (allCollection[i].Physics > allCollection[j].Physics)
+                        { allCollection.RemoveAt(j);
+                            break;
+                        }
+
+                   
+                            }
+                }
+                int count = 0;
+                for (int j = 0; j < allCollection.Count; j++)
+                {
+                    
+                    if (allCollection[i].HatColor == allCollection[j].HatColor) 
+                    {
+
+                        count++;
+
+                    }
+                }
+                HatCount current = new HatCount(count, allCollection[i].HatColor);
+                allCount.Add(current);
+            }
+
+            foreach (var item in allCollection.OrderByDescending(x=>x.Physics).ThenByDescending(x=>x.HatCount.Count))
+            {
+                Console.WriteLine(item);
+            }
+
+        }
+    }
+    class Dwarfs
+    {
+        public Dwarfs(string name, string hatColor, int physics)
+        {
+            Name = name;
+            HatColor = hatColor;
+            Physics = physics;
+        }
+        public string Name { get; set; }
+        public string  HatColor { get; set; }
+        public int Physics { get; set; }
+            
+            public override string ToString()
+        {
+            return $"({HatColor}) {Name} <-> {Physics}";        }
+
+    }
+    class HatCount
+    { public int Count { get; set; }
+        public string Color { get; set; }
+
+        public HatCount(int count,  string color)
+        {
+            Count = count;
+            Color = color;
+        }
+    }
+}
